@@ -17,7 +17,7 @@ func day10part1() {
 	points := 0
 	for _, line := range lines {
 		openChunks := make([]rune, 0)
-		incorrectCloserCounter := map [rune]int{')': 0, '}': 0, ']': 0, '>': 0}
+		incorrectCloserCounter := map[rune]int{')': 0, '}': 0, ']': 0, '>': 0}
 		for _, char := range line {
 			if isOpeningChar(char) {
 				openChunks = append(openChunks, char)
@@ -25,10 +25,10 @@ func day10part1() {
 			}
 
 			if (char == ')' && openChunks[len(openChunks)-1] == '(') || (char == '}' && openChunks[len(openChunks)-1] == '{') || (char == ']' && openChunks[len(openChunks)-1] == '[') || (char == '>' && openChunks[len(openChunks)-1] == '<') {
-				openChunks = openChunks[:len(openChunks) - 1] // Pop from the open chunks list
+				openChunks = openChunks[:len(openChunks)-1] // Pop from the open chunks list
 			} else {
 				incorrectCloserCounter[char]++
-				openChunks = openChunks[:len(openChunks) - 1] // Pop from the open chunks list
+				openChunks = openChunks[:len(openChunks)-1] // Pop from the open chunks list
 			}
 		}
 
@@ -55,7 +55,7 @@ func day10part2() {
 			}
 
 			if (char == ')' && openChunks[len(openChunks)-1] == '(') || (char == '}' && openChunks[len(openChunks)-1] == '{') || (char == ']' && openChunks[len(openChunks)-1] == '[') || (char == '>' && openChunks[len(openChunks)-1] == '<') {
-				openChunks = openChunks[:len(openChunks) - 1] // Pop from the open chunks list
+				openChunks = openChunks[:len(openChunks)-1] // Pop from the open chunks list
 			} else {
 				syntaxError = true
 				break
@@ -67,7 +67,7 @@ func day10part2() {
 		}
 
 		linePoints := 0
-		for i := len(openChunks) -1; i >= 0; i-- {
+		for i := len(openChunks) - 1; i >= 0; i-- {
 			linePoints = linePoints * 5
 			if openChunks[i] == '(' {
 				linePoints += 1
@@ -86,7 +86,7 @@ func day10part2() {
 		return scores[i] < scores[j]
 	})
 
-	fmt.Println("Total syntax correction points:", scores[len(scores) / 2])
+	fmt.Println("Total syntax correction points:", scores[len(scores)/2])
 }
 
 func isOpeningChar(char rune) bool {
@@ -99,8 +99,7 @@ func isOpeningChar(char rune) bool {
 	return false
 }
 
-
-var test = `[({(<(())[]>[[{[]{<()<>>
+var test10 = `[({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
 {([(<{}[<>[]}>{[]{[(<()>
 (((({<>}<{<{<>}{[]{[]{}

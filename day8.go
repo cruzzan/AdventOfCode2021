@@ -18,7 +18,7 @@ func day8part1() {
 	for _, line := range lines {
 		parts := strings.Split(line, " | ")
 
-		for _, outputValue := range strings.Split(parts[1], " "){
+		for _, outputValue := range strings.Split(parts[1], " ") {
 			if len(outputValue) == 2 || len(outputValue) == 4 || len(outputValue) == 3 || len(outputValue) == 7 {
 				counter++
 			}
@@ -37,8 +37,8 @@ func day8part2() {
 		patterns := parts[0]
 		outputs := parts[1]
 
-		known := make(map [int]string)
-		for _, pattern := range strings.Split(patterns, " "){
+		known := make(map[int]string)
+		for _, pattern := range strings.Split(patterns, " ") {
 			switch len(pattern) {
 			case 2:
 				known[1] = pattern
@@ -54,7 +54,6 @@ func day8part2() {
 				break
 			}
 		}
-
 
 		outputValue := ""
 		for _, ov := range strings.Split(outputs, " ") {
@@ -73,7 +72,7 @@ func day8part2() {
 				number = "8"
 				break
 			case 5:
-				if containsRunes(known[1] ,ov) {
+				if containsRunes(known[1], ov) {
 					number = "3"
 				} else if containsRunes(removeRunes(known[4], known[1]), ov) {
 					number = "5"
@@ -82,9 +81,9 @@ func day8part2() {
 				}
 				break
 			case 6:
-				if containsRunes(known[4] ,ov) {
+				if containsRunes(known[4], ov) {
 					number = "9"
-				} else if containsRunes(removeRunes(known[8], known[1]) ,ov) {
+				} else if containsRunes(removeRunes(known[8], known[1]), ov) {
 					number = "6"
 				} else {
 					number = "0"
@@ -124,7 +123,7 @@ func removeRunes(s string, target string) string {
 	return s
 }
 
-var test = `be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
+var test8 = `be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
 edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
 fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
 fbegcd cbd adcefb dageb afcb bc aefdc ecdab fgdeca fcdbega | efabcd cedba gadfec cb

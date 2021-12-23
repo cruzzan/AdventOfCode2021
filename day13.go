@@ -8,6 +8,7 @@ import (
 
 func main() {
 	day13part1()
+	day13part2()
 }
 
 func day13part1() {
@@ -28,6 +29,60 @@ func day13part1() {
 	}
 
 	fmt.Println("Dot count after 1 run:", len(dots))
+}
+
+func day13part2() {
+	dots := make(map[string]Point, 0)
+	lines := strings.Split(day13dots, "\n")
+	for _, line := range lines {
+		dots[line] = newPoint(line)
+	}
+
+	for _, fold := range strings.Split(day13folds, "\n") {
+		parts := strings.Split(fold, "=")
+		mark, _ := strconv.Atoi(parts[1])
+
+		if parts[0][len(parts[0])-1] == 'x' {
+			for k, dot := range dots {
+				if dot.x > mark {
+					newX := mark - (dot.x - mark)
+					name := fmt.Sprintf("%d,%d", newX, dot.y)
+					dots[name] = Point{newX, dot.y}
+
+					delete(dots, k)
+				}
+			}
+		} else {
+			for k, dot := range dots {
+				if dot.y > mark {
+					newY := mark - (dot.y - mark)
+					name := fmt.Sprintf("%d,%d", dot.x, newY)
+					dots[name] = Point{dot.x, newY}
+
+					delete(dots, k)
+				}
+			}
+		}
+	}
+
+	// I read in a forum post that the output should be formatted as 6x40
+	matrix := make([]string, 6)
+	for i := 0; i <= 5; i++ {
+		for j := 0; j <= 40; j++ {
+			matrix[i] += "."
+		}
+	}
+
+	// It should be noted that I flipped x and y here at first. Which caused issues
+	for _, dot := range dots {
+		line := matrix[dot.y]
+		line = fmt.Sprintf("%s#%s", line[:dot.x], line[dot.x+1:])
+		matrix[dot.y] = line
+	}
+
+	for _, line := range matrix {
+		fmt.Println(line)
+	}
 }
 
 type Point struct {

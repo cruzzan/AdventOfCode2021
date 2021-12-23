@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strings"
 )
 
 func main() {
 	day14part1()
+	day14part2()
 }
 
 func day14part1() {
@@ -38,6 +40,70 @@ func day14part1() {
 
 	fmt.Println("Polymer counts", polymerCount)
 }
+
+func day14part2() {
+	ir := make(map[string]string)
+	lines := strings.Split(day14insertionrules, "\n")
+	for _, line := range lines {
+		parts := strings.Split(line, " -> ")
+		ir[parts[0]] = parts[1]
+	}
+
+	pairs := make(map[string]int64)
+	for i := 0; i < len(day14template)-1; i++ {
+		pair := fmt.Sprintf("%s%s", string(day14template[i]), string(day14template[i+1]))
+		pairs[pair]++
+	}
+
+	for i := 0; i < 40; i++ {
+		tempPairs := make(map[string]int64)
+		for key, count := range pairs {
+			if count > 0 {
+				tempPairs[key] = count
+			}
+		}
+		for key, count := range pairs {
+			first := fmt.Sprintf("%s%s", string(key[0]), ir[key])
+			second := fmt.Sprintf("%s%s", ir[key], string(key[1]))
+			tempPairs[key] -= count
+			tempPairs[first] += count
+			tempPairs[second] += count
+		}
+		pairs = tempPairs
+	}
+
+	polymerCount := make(map[string]int64)
+	for pair, count := range pairs {
+		for _, char := range pair {
+			polymerCount[string(char)] += count
+		}
+	}
+
+	fmt.Println("Polymer counts")
+	for p, c := range polymerCount {
+		adjusted := int(math.Ceil(float64(c) / float64(2)))
+		fmt.Println(p, adjusted)
+	}
+}
+
+var test14template = `NNCB`
+
+var test14ir = `CH -> B
+HH -> N
+CB -> H
+NH -> C
+HB -> C
+HC -> B
+HN -> C
+NN -> C
+BH -> H
+NC -> B
+NB -> B
+BN -> B
+BB -> N
+BC -> B
+CC -> N
+CN -> C`
 
 var day14template = `FSKBVOSKPCPPHVOPVFPC`
 
